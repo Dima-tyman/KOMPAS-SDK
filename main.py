@@ -1,7 +1,8 @@
 import time
 import pythoncom
-from pywin.mfc.object import Object
 from win32com.client import Dispatch, gencache
+from win32com.server.policy import regPolicy
+
 
 def get_kompas_api7():
     module = gencache.EnsureModule("{69AC2981-37C0-4379-84FD-5DD2F3C0A520}", 0, 1, 0)
@@ -15,36 +16,24 @@ module7, api7, const7 = get_kompas_api7()  # Подключаемся к API7
 app7 = api7.Application  # Получаем основной интерфейс
 docs = app7.Documents
 app7.Visible = True  # Показываем окно пользователю (если скрыто)
-app7.HideMessage = const7.ksHideMessageNo  # Отвечаем НЕТ на любые вопросы программы
+# app7.HideMessage = const7.ksHideMessageNo  # Отвечаем НЕТ на любые вопросы программы
 print(app7.ApplicationName(FullName=True))  # Печатаем название программы
 
+# while True:
+print("Hello")
+activeDoc = app7.ActiveDocument
 
-def amount_sheet(doc7):
-    sheets = {"A0": 0, "A1": 0, "A2": 0, "A3": 0, "A4": 0, "A5": 0}
-    for sheet in range(doc7.LayoutSheets.Count):
-        format = doc7.LayoutSheets.Item(sheet).Format  # sheet - номер листа, отсчёт начинается от 0
-        sheets["A" + str(format.Format)] += 1 * format.FormatMultiplicity
-    return sheets
+KompasDocument2D = activeDoc._oleobj_.QueryInterface(module7.NamesToIIDMap['IKompasDocument2D'], pythoncom.IID_IDispatch)
+doc2D = module7.IKompasDocument2D(KompasDocument2D)
+views = doc2D.ViewsAndLayersManager.Views
+if views(1) is not None:
+    views(1).Delete()
+    print("DELETE")
 
-while True:
-    print("Hello")
-    activeDoc = app7.ActiveDocument
-    KompasDocument2D = activeDoc._oleobj_.QueryInterface(module7.NamesToIIDMap['IKompasDocument2D'],
-                                                        pythoncom.IID_IDispatch)
-    doc2D = module7.IKompasDocument2D(KompasDocument2D)
+View = views.Add(1)._oleobj_.QueryInterface(module7.NamesToIIDMap['IView'], pythoncom.IID_IDispatch)
+view = module7.IView(View)
 
-    View = doc2D.ViewsAndLayersManager.Views(1)._oleobj_.QueryInterface(module7.NamesToIIDMap['IView'],
-                                                         pythoncom.IID_IDispatch)
-    view = module7.IView(View)
-
-    # print(view.Name)
-    print(view.Scale)
-    # view.Name = "Gigigi"
-    # view.Scale = 1
-    # view.Update()
-    # print(view.Name)
-    # print(view.Scale)
-
-    time.sleep(2)
-
-    # ViewsAndLayersManager
+view.Scale = 2
+view.Name = "Test2"
+view.Number = 5
+view.Update()
