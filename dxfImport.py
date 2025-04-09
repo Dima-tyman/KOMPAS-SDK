@@ -124,7 +124,10 @@ def importActive_to_dxf(path_to_save, count_part):
     doc2d1.RebuildDocument()
 
     # Save to DXF
-    doc.SaveAs(path_to_save + doc_sourse.Name.replace(".m3d", " - %s шт..dxf" % count_part))
+    if count_part == 0:
+        doc.SaveAs(path_to_save + doc_sourse.Name.replace(".m3d", ".dxf"))
+    else:
+        doc.SaveAs(path_to_save + doc_sourse.Name.replace(".m3d", " - %s шт..dxf" % count_part))
 
     # Change view format for save CDW
     viewAssoc.BendLinesVisible = True

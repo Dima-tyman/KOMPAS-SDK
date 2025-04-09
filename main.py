@@ -1,5 +1,6 @@
 import os
 import time
+
 from dxfImport import *
 
 
@@ -14,9 +15,12 @@ def from_path(path_to_save):
 
         print(doc_name)
         count_part = input("Input count: ")
-        if count_part == "": count_part = 1
 
-        res_name_dxf = doc_name.replace(".m3d", " - %s шт..dxf" %count_part)
+        if not count_part.isdigit() or int(count_part) == 0:
+            res_name_dxf = doc_name.replace(".m3d", ".dxf")
+        else:
+            res_name_dxf = doc_name.replace(".m3d", " - %s шт..dxf" %int(count_part))
+
         res_name_cdw = doc_name.replace(".m3d", ".cdw")
         path_source = path_to_save + doc_name
         path_result_dxf = path_to_save + res_name_dxf
@@ -28,6 +32,10 @@ def from_path(path_to_save):
 
 def from_active_doc(path_to_save):
     count_part = input("Input count: ")
+
+    if not count_part.isdigit(): count_part = 0
+    count_part = int(count_part)
+
     importActive_to_dxf(path_to_save, count_part)
     convert_complete_mes(True)
 
