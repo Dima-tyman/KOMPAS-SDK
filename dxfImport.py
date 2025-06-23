@@ -85,7 +85,7 @@ def importActive_to_dxf(path_to_save, count_part):
     api7.HideMessage = const7.ksHideMessageYes
 
     # Documents init and create
-    doc_sourse = api7.ActiveDocument
+    doc_source = api7.ActiveDocument
     doc = api7.Documents.Add(1)
     IKompasDocument2D = doc._oleobj_.QueryInterface(module7.NamesToIIDMap['IKompasDocument2D'], pythoncom.IID_IDispatch)
     doc2D = module7.IKompasDocument2D(IKompasDocument2D)
@@ -111,7 +111,7 @@ def importActive_to_dxf(path_to_save, count_part):
     viewDesign = module7.IViewDesignation(IViewDesignation)
 
     # Add view parameter
-    viewAssoc.SourceFileName = doc_sourse.PathName
+    viewAssoc.SourceFileName = doc_source.PathName
     viewAssoc.ProjectionName = "#Развертка"
     view.Update()
     viewAssoc.Unfold = True
@@ -125,9 +125,9 @@ def importActive_to_dxf(path_to_save, count_part):
 
     # Save to DXF
     if count_part == 0:
-        doc.SaveAs(path_to_save + doc_sourse.Name.replace(".m3d", ".dxf"))
+        doc.SaveAs(path_to_save + doc_source.Name.replace(".m3d", ".dxf"))
     else:
-        doc.SaveAs(path_to_save + doc_sourse.Name.replace(".m3d", " - %s шт..dxf" % count_part))
+        doc.SaveAs(path_to_save + doc_source.Name.replace(".m3d", " - %s шт..dxf" % count_part))
 
     # Change view format for save CDW
     viewAssoc.BendLinesVisible = True
@@ -140,7 +140,7 @@ def importActive_to_dxf(path_to_save, count_part):
     sheet.Update()
 
     # Save to CDW with bend line
-    doc.SaveAs(path_to_save + doc_sourse.Name.replace(".m3d", ".cdw"))
+    doc.SaveAs(path_to_save + doc_source.Name.replace(".m3d", ".cdw"))
 
     # Clear
     view.Delete()
