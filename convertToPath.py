@@ -4,7 +4,7 @@ import time
 from main import from_path
 
 
-PATH = "D:\\KOMPAS SDK\\Parts\\"
+PATH = os.getcwd() + "\\Parts\\"
 startConvert = False
 
 newPath = os.path.normpath(input("Input path: "))
@@ -34,7 +34,7 @@ if startConvert:
         os.mkdir(newPath + "\\DXF")
     if not os.path.isdir(newPath + "\\CDW"):
         os.mkdir(newPath + "\\CDW")
-    from_path(newPath, newPath + "\\DXF", newPath + "\\CDW")
+    from_path(newPath + "\\", newPath + "\\DXF\\", newPath + "\\CDW\\")
 else:
     print("Path not found or exist")
     time.sleep(2)

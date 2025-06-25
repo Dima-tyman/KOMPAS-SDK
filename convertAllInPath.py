@@ -1,5 +1,7 @@
+import os
+
 from main import from_path
 
-PATH = "D:\\KOMPAS SDK\\Parts\\"
+PATH = os.getcwd() + "\\Parts\\"
 
 from_path(PATH)
