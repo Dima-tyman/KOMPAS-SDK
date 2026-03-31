@@ -22,7 +22,7 @@ def __appinit():
 
     # Change document sheet format
     sheet = doc.LayoutSheets(0)
-    sheet.LayoutLibraryFileName = "C:\\Program Files\\ASCON\\KOMPAS-3D v22\\Sys\\graphic.lyt"
+    sheet.LayoutLibraryFileName = "C:\\Program Files\\ASCON\\KOMPAS-3D v24\\Sys\\GRAPHIC_2023.LYT"
     sheet.LayoutStyleNumber = 15  # 13 - not into frame, 15 - empty sheet
     sheet.Update()
 
