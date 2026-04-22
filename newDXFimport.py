@@ -41,7 +41,7 @@ def __appinit():
     IEmbodimentsManager = viewAssoc._oleobj_.QueryInterface(module7.NamesToIIDMap['IEmbodimentsManager'],
                                                             pythoncom.IID_IDispatch)
     embodiments = module7.IEmbodimentsManager(IEmbodimentsManager)
-    return doc, doc2D1, doc_source, sheet, view, viewAssoc, viewAssocElement, viewDesign, embodiments
+    return doc, doc2D1, doc_source, sheet, view, viewAssoc, viewAssocElement, viewDesign, embodiments, api7, const7
 
 def __rebuild(view, doc2D1):
     view.Update()
@@ -96,7 +96,7 @@ def __set_enbodiment_name(oldName, enbodimentNum):
 
 
 def importActive_to_dxf(path_to_save):
-    doc, doc2D1, doc_source, sheet, view, viewAssoc, viewAssocElement, viewDesign, embodiments = __appinit()
+    doc, doc2D1, doc_source, sheet, view, viewAssoc, viewAssocElement, viewDesign, embodiments, api, const = __appinit()
 
     j = 0
     # Save to DXF base
@@ -139,10 +139,11 @@ def importActive_to_dxf(path_to_save):
             j = j + 1
 
     doc.Close(0)
+    api.HideMessage = const.ksShowMessage
     return j
 
 def importPath_to_dxf(file_path, file_name, path_to_saveDXF, path_to_saveCDW):
-    doc, doc2D1, doc_source, sheet, view, viewAssoc, viewAssocElement, viewDesign, embodiments = __appinit()
+    doc, doc2D1, doc_source, sheet, view, viewAssoc, viewAssocElement, viewDesign, embodiments, api, const = __appinit()
 
     j = 1
     # Save to DXF
@@ -183,4 +184,5 @@ def importPath_to_dxf(file_path, file_name, path_to_saveDXF, path_to_saveCDW):
             j = j + 1
 
     doc.Close(0)
+    api.HideMessage = const.ksShowMessage
     return j
